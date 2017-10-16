@@ -10,12 +10,13 @@ $username = "";
 $email = "";
 $errors=array();
 if(isset($_POST['register'])){
-	$Username   = $_POST['username'];
+	$username   = $_POST['username'];
 	$email 		= $_POST['email'];
 	$password_1 = $_POST['password_1'];
 	$password_2 = $_POST['password_2'];
 
-	if(empty($username)){
+
+/*	if(empty($username)){
 		array_push($errors, "Username is required");
 	}
 	if(empty($email)){
@@ -23,15 +24,19 @@ if(isset($_POST['register'])){
 	}
 	if(empty($password_1)){
 		array_push($errors, "Password is required");
-	}
+	}*/
 	if($password_1!=$password_2){
 		array_push($errors, "The two passwords do not match!!");
 	}
-	if($errors==0){
-		$password = md5($password_1);//encrypt password before storing in database.
+	else{
+		$password= md5($password_1);//encrypt password before storing in database.
 		$query = "INSERT INTO tbl_user (username,email,password) 
 					  VALUES ('$username','$email','$password')";
 		$result = $db->insert($query);
+
+		if($result!=NULL) {
+			header("Location: login.php");
+		}
 	}
 }
 ?>
@@ -54,22 +59,22 @@ if(isset($_POST['register'])){
 		<?php include 'errors.php';?>
 		<div class="input-group">
 			<lavel>Username</lavel>
-			<input type="text" name="username">
+			<input type="text" name="username" required>
 		</div>
 
 		<div class="input-group">
 			<lavel>Email</lavel>
-			<input type="text" name="email">
+			<input type="text" name="email" required>
 		</div>
 
 		<div class="input-group">
 			<lavel>Password</lavel>
-			<input type="text" name="password_1">
+			<input type="password" name="password_1" required>
 		</div>
 
 		<div class="input-group">
 			<lavel>Confirm Password</lavel>
-			<input type="text" name="password_2">
+			<input type="password" name="password_2" required>
 		</div>
 
 		<div class="input-group">
